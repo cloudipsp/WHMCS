@@ -24,4 +24,4 @@ WHMCS 5.x.x - 7.x.x
 ----
 
 [1]: https://raw.githubusercontent.com/cloudipsp/WHMCS/master/Screenshot_1.png
-[1]: https://raw.githubusercontent.com/cloudipsp/WHMCS/master/Screenshot_2.png
+[2]: https://raw.githubusercontent.com/cloudipsp/WHMCS/master/Screenshot_2.png
