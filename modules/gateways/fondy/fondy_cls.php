@@ -1,6 +1,6 @@
 <?php
 
-class Fondy
+class Fondy_Cls
 {
     const ORDER_APPROVED = 'approved';
     const ORDER_DECLINED = 'declined';
