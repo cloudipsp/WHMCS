@@ -60,7 +60,7 @@ checkCbTransID($transactionId);
 
 logTransaction($gatewayParams['name'], $_POST, $transactionStatus);
 
-if ($transactionStatus == 'success') {
+if ($transactionStatus === 'success') {
 
     addInvoicePayment(
         $invoiceId,
