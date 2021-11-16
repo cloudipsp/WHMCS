@@ -1,4 +1,4 @@
-WHMCS 5.x.x - 7.x.x
+WHMCS 5.x.x - 8.x.x
 =========
 
 #EN

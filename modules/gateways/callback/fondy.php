@@ -46,10 +46,19 @@ $fondy = new Fondy_Cls();
 $fondySettings['MERCHANT'] = $gatewayParams['accountID'];
 $fondySettings['SECURE_KEY'] = $gatewayParams['secretKey'];
 $fondyResult = $fondy->isPaymentValid($fondySettings, $_POST);
-if ($_POST['order_status'] == $fondy->ORDER_DECLINED) {
-    $transactionStatus = 'failure';
-} elseif ($fondyResult === 1 and $_POST['order_status'] == $fondy->ORDER_APPROVED) {
-    $transactionStatus = 'success';
+
+if ($fondyResult === true){
+    switch ($_POST['order_status']) {
+        case Fondy_Cls::ORDER_APPROVED:
+            $transactionStatus = 'success';
+            break;
+        case Fondy_Cls::ORDER_DECLINED:
+            $transactionStatus = 'failure';
+            break;
+        default:
+            $transactionStatus = 'unhandled fondy order status';
+            break;
+    }
 } else {
     $transactionStatus = $fondyResult;
 }
@@ -59,9 +68,20 @@ $invoiceId = checkCbInvoiceID($invoiceId, $gatewayParams['name']);
 checkCbTransID($transactionId);
 
 logTransaction($gatewayParams['name'], $_POST, $transactionStatus);
+$paymentSuccess = false;
 
 if ($transactionStatus === 'success') {
-
+    /**
+     * Add Invoice Payment.
+     *
+     * Applies a payment transaction entry to the given invoice ID.
+     *
+     * @param int $invoiceId         Invoice ID
+     * @param string $transactionId  Transaction ID
+     * @param float $paymentAmount   Amount paid (defaults to full balance)
+     * @param float $paymentFee      Payment fee (optional)
+     * @param string $gatewayModule  Gateway module name
+     */
     addInvoicePayment(
         $invoiceId,
         $transactionId,
@@ -70,6 +90,7 @@ if ($transactionStatus === 'success') {
         $gatewayModuleName
     );
 
+    $paymentSuccess = true;
 }
-echo "<script>location.replace('/clientarea.php?action=invoices')</script>";
 
+callback3DSecureRedirect($invoiceId, $paymentSuccess);
