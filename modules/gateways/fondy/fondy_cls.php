@@ -20,7 +20,7 @@ class Fondy_Cls
 
         $str = $password;
         foreach ($data as $k => $v) {
-            $str .= self::SIGNATURE_SEPARATOR . $v;
+            $str .= self::SIGNATURE_SEPARATOR . htmlspecialchars_decode($v);
         }
 
         if ($encoded) {
